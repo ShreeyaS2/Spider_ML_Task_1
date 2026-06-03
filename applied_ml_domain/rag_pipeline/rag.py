@@ -5,9 +5,10 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 import streamlit as st
+from sentence_transformers import CrossEncoder
 
-PAPERS_DIR = r"C:\Personal\comp_proj\neuralnetwork\rag_pipeline\papers"
-CHROMA_DIR = r"C:\Personal\comp_proj\neuralnetwork\rag_pipeline\chroma_db"
+PAPERS_DIR = r"C:\Personal\comp_proj\spider_ml_task1\applied_ml_domain\rag_pipeline\papers"
+CHROMA_DIR = r"C:\Personal\comp_proj\spider_ml_task1\applied_ml_domain\rag_pipeline\chroma_db"
 EMBED_MODEL = "BAAI/bge-small-en-v1.5"  
 
 #Ingesting papers and splitting into chunks
@@ -27,7 +28,7 @@ def ingest_papers():
 
     st.write(f"Found {len(papers)} papers, {len(files)} pages. Splitting into chunks...")
 
-    splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=70)
     chunks = splitter.split_documents(files) #splits a list of documents into smaller chunks based on the specified chunk size and overlap. Each chunk is treated as a separate document, allowing for more manageable processing in subsequent steps.
     st.write(f"Total chunks created: {len(chunks)}")
     return chunks
@@ -56,7 +57,21 @@ def load_vectorstore():
 #Retrieve context
 def retrieve(vectorstore, query):
     with st.spinner("Retrieving relevant chunks..."):
-        return vectorstore.similarity_search(query, k=3)
+        return vectorstore.max_marginal_relevance_search(query, k=6)
+
+#Ranking the context on the basis of relevance
+reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+def rerank(query, docs):
+    pairs = []
+    for doc in docs:
+        pair = (query, doc.page_content)
+        pairs.append(pair)
+    scores = reranker.predict(pairs)
+    ranked_scores = sorted(zip(scores, docs), reverse=True)
+    results=[]
+    for _, doc in ranked_scores[:3]:
+        results.append(doc)
+    return results
 
 #Generate answer
 def generate_answer(query, docs):
@@ -102,6 +117,7 @@ def run():
         return
     elif query:
         docs = retrieve(st.session_state.vectorstore, query)
+        docs = rerank(query, docs)
         answer = generate_answer(query, docs)
 
         st.divider()
