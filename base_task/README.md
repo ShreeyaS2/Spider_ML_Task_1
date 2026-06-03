@@ -42,7 +42,7 @@ A custom multi-branch neural network for classifying Fashion-MNIST images, built
 
 ## Findings
 - Augmentation gave worse results for the model as a simple model with ~10,000 parameters aand less nodes in the hidden layers is not able to properly learn further skewed inputs caused by augmentation.
-- The dropout led to a successful lowering of the generalisation gap as it gets turned off during evaluation causing the evaluation to take place at full computational power.
+- The dropout led to a successful lowering of the generalisation gap as it gets turned off during evaluation causing the evaluation to take place at full computational power. The dropout in the dense branch B is especially helpful as it prevents co-adaptation.
 - After about 40-45 epochs, the graphs become very consistent and don't skew with decent training and validation results, with the validation loss and accuracy being better.
 
 ## Outputs
