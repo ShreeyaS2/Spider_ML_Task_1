@@ -6,10 +6,13 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 import streamlit as st
 from sentence_transformers import CrossEncoder
+from dotenv import load_dotenv
 
 PAPERS_DIR = r"C:\Personal\comp_proj\spider_ml_task1\applied_ml_domain\rag_pipeline\papers"
 CHROMA_DIR = r"C:\Personal\comp_proj\spider_ml_task1\applied_ml_domain\rag_pipeline\chroma_db"
-EMBED_MODEL = "BAAI/bge-small-en-v1.5"  
+EMBED_MODEL = "BAAI/bge-small-en-v1.5" 
+
+load_dotenv()  
 
 #Ingesting papers and splitting into chunks
 def ingest_papers():
@@ -91,7 +94,7 @@ def generate_answer(query, docs):
 
     Answer:"""
         
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",max_tokens=4000, api_key="AQ.Ab8RN6Lxbma4gXHsL9Jku-Jc7XSp8tENmAl_xEYNBrt_p5yhvQ")
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",max_tokens=4000, api_key=os.getenv("GEMINI_API_KEY"))
         response = llm.invoke(prompt)
         return response.content
 
