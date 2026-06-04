@@ -1,11 +1,11 @@
 langchain-google-genai
 langchain
 langchain-community
-langchain-chroma
 langchain-huggingface
-langchain-py-pdf
-chromadb
+faiss-gpu
 sentence-transformers
 pymupdf
 streamlit
 dotenv
+pillow
+transformers
