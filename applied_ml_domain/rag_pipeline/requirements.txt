@@ -1,8 +1,8 @@
-langchain-google-genai
+google-genai
 langchain
 langchain-community
 langchain-huggingface
-faiss-gpu
+faiss-cpu
 sentence-transformers
 pymupdf
 streamlit
