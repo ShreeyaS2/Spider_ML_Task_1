@@ -62,7 +62,7 @@ def extract_images():
     image_metadata = []
     for file in files:
         doc = fitz.open(file.metadata.get("source", ""))
-        paper_name = os.path.basename(file.metadata.get("source", ""))
+        paper = os.path.basename(file.metadata.get("source", ""))
         for page_num in range(len(doc)):
             page = doc[page_num]
             for i, img in enumerate(page.get_images(full=True)):
@@ -73,7 +73,7 @@ def extract_images():
                 filepath = os.path.join(IMAGES_DIR, f"image_{page_num}_{i}.{ext}")
                 with open(filepath, "wb") as f:
                     f.write(image_bytes)
-                image_metadata.append({"path": filepath, "paper": paper_name, "page": page_num + 1})
+                image_metadata.append({"path": filepath, "paper": paper, "page": page_num + 1})
     return image_metadata
 
 #Embeddings
