@@ -201,7 +201,7 @@ def rerank(query, files):
     pairs = [(query, f.page_content) for f in files]
     scores = reranker.predict(pairs)
     ranked = sorted(zip(scores, files), reverse=True)
-    return [f for _, f in ranked[:3]]
+    return [files for _, files in ranked[:3]]
 
 #Generate answer
 def generate_answer(query, files):
