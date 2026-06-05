@@ -251,7 +251,7 @@ def run():
         except Exception as e:
             print(f"Load failed: {e}")
             image_metadata = [
-                {"path": os.path.join(IMAGES_DIR, f), "paper": "", "page": 0}
+                {"path": os.path.join(IMAGES_DIR, f)}
                 for f in os.listdir(IMAGES_DIR)
                 if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
             ]
