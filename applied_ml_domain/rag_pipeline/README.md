@@ -29,13 +29,11 @@ GEMINI_API_KEY=your_api_key_here
 ## Models Used
 
 | Model | Purpose |
-|---|---|---|
+|---|---|
 | BAAI/bge-small-en-v1.5 | Text embeddings |
 | openai/clip-vit-base-patch32 | Image embeddings |
 | cross-encoder/ms-marco-MiniLM-L-6-v2 | Reranking |
 | gemini-2.5-flash | Answer generation | 
-
----
 
 ## Key Dependencies
 
