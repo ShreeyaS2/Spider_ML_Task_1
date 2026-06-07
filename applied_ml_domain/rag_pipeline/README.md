@@ -1,4 +1,4 @@
-# RAG Pipeline for NLP Research Papers
+# RAG Pipeline Application for NLP Research Papers
 
 A Retrieval-Augmented Generation (RAG) pipeline built with Streamlit that lets you ingest, chunk, and query a given collection of NLP research papers. It retrieves relevant chunks and images from the papers and generates answers using the Gemini API.
 
@@ -10,7 +10,7 @@ A Retrieval-Augmented Generation (RAG) pipeline built with Streamlit that lets y
 - Query image search done using IndexFlatIP on normalised embedding
 - Reranking of retrieved chunks using a CrossEncoder
 - Answer generation using Gemini 2.5 Flash
-- Streamlit UI showing the final answer, most relevant image and retrieved chunks
+- Streamlit UI showing the final answer, most relevant image and retrieved chunks ranked by relevance
 
 ## Setup
 
