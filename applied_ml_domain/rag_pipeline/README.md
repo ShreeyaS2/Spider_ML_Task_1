@@ -26,6 +26,12 @@ Create a `.env` file in the project root:
 GEMINI_API_KEY=your_api_key_here
 ```
 
+### Running the App
+Go into rag_pipeline/ folder and run:
+```bash
+python -m streamlit run rag.py
+```
+
 ## Models Used
 
 | Model | Purpose |
