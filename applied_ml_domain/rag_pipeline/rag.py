@@ -13,7 +13,7 @@ from dotenv import load_dotenv, find_dotenv
 from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
 import torch
-import numpy as np
+import numpy
 import faiss
 
 PAPERS_DIR     = r"C:\Personal\comp_proj\spider_ml_task1\applied_ml_domain\rag_pipeline\papers"
@@ -181,7 +181,7 @@ def retrieve_images(image_store, query):
     with st.spinner("Retrieving relevant images..."):
         index, metadata = image_store
         query_vec = query_clip(query).astype("float32").reshape(1, -1)
-        faiss.normalize_L2(query_vec)
+        faiss.normalize_L2(query_vec)   
         _, indices = index.search(query_vec, k=1)
         top = indices[0][0]
         if top != -1 and top < len(metadata):
@@ -251,7 +251,7 @@ def run():
         except Exception as e:
             print(f"Load failed: {e}")
             image_metadata = [
-                {"path": os.path.join(IMAGES_DIR, f), "paper": "", "page": 0}
+                {"path": os.path.join(IMAGES_DIR, f)}
                 for f in os.listdir(IMAGES_DIR)
                 if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
             ]
