@@ -62,7 +62,7 @@ def extract_images():
     image_metadata = []
     for file in files:
         doc = fitz.open(file.metadata.get("source", ""))
-        paper_name = os.path.basename(file.metadata.get("source", ""))
+        paper = os.path.basename(file.metadata.get("source", ""))
         for page_num in range(len(doc)):
             page = doc[page_num]
             for i, img in enumerate(page.get_images(full=True)):
@@ -73,7 +73,7 @@ def extract_images():
                 filepath = os.path.join(IMAGES_DIR, f"image_{page_num}_{i}.{ext}")
                 with open(filepath, "wb") as f:
                     f.write(image_bytes)
-                image_metadata.append({"path": filepath, "paper": paper_name, "page": page_num + 1})
+                image_metadata.append({"path": filepath, "paper": paper, "page": page_num + 1})
     return image_metadata
 
 #Embeddings
@@ -201,7 +201,7 @@ def rerank(query, files):
     pairs = [(query, f.page_content) for f in files]
     scores = reranker.predict(pairs)
     ranked = sorted(zip(scores, files), reverse=True)
-    return [f for _, f in ranked[:3]]
+    return [files for _, files in ranked[:3]]
 
 #Generate answer
 def generate_answer(query, files):
@@ -250,11 +250,10 @@ def run():
             st.session_state.image_vectorstore = load_image_vectorstore()
         except Exception as e:
             print(f"Load failed: {e}")
-            image_metadata = [
-                {"path": os.path.join(IMAGES_DIR, f)}
-                for f in os.listdir(IMAGES_DIR)
-                if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
-            ]
+            image_metadata = []
+            for f in os.listdir(IMAGES_DIR):
+                if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+                    image_metadata.append({"path": os.path.join(IMAGES_DIR, f)})
             print(f"Total images: {len(image_metadata)}")
             result = build_image_vectorstore(image_metadata)
             if result[0] is None:
