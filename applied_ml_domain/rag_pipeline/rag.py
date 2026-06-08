@@ -250,11 +250,10 @@ def run():
             st.session_state.image_vectorstore = load_image_vectorstore()
         except Exception as e:
             print(f"Load failed: {e}")
-            image_metadata = [
-                {"path": os.path.join(IMAGES_DIR, f)}
-                for f in os.listdir(IMAGES_DIR)
-                if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
-            ]
+            image_metadata = []
+            for f in os.listdir(IMAGES_DIR):
+                if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"):
+                    image_metadata.append({"path": os.path.join(IMAGES_DIR, f)})
             print(f"Total images: {len(image_metadata)}")
             result = build_image_vectorstore(image_metadata)
             if result[0] is None:
