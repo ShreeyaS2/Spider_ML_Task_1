@@ -109,7 +109,7 @@ for epoch in range(30):
 # grab the last epoch's images and reconstructions
 images, reconstructed = output[-1]
 
-images        = images.detach().cpu()
+images = images.detach().cpu()
 reconstructed = reconstructed.detach().cpu()
 
 #reconstructed is (B, 784) — needs reshaping
